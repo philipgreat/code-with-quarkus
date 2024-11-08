@@ -10,6 +10,7 @@ You can run your application in dev mode that enables live coding using:
 
 ```shell script
 sdk default java 23.0.1-graalce
+find . -type f -exec sed -i 's/import javax/import jakarta/g' {} +
 ./mvnw compile quarkus:dev
 ```
 
