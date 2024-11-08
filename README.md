@@ -9,6 +9,7 @@ If you want to learn more about Quarkus, please visit its website: <https://quar
 You can run your application in dev mode that enables live coding using:
 
 ```shell script
+sdk default java 23.0.1-graalce
 ./mvnw compile quarkus:dev
 ```
 
