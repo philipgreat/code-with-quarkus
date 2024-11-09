@@ -4,6 +4,19 @@ This project uses Quarkus, the Supersonic Subatomic Java Framework.
 
 If you want to learn more about Quarkus, please visit its website: <https://quarkus.io/>.
 
+## Test it!
+```
+open a terminal
+
+websocat ws://127.0.0.1:9988/message-center/123455677/
+
+open a new terminal
+
+curl -X PUT -d '{"channelName":"123455677","message":"yes是的,我看行","subscribers":["123455677"]}'  -H "Content-Type:application/json" http://127.0.0.1:9988/message-center/post
+
+```
+
+
 ## Running the application in dev mode
 
 You can run your application in dev mode that enables live coding using:
