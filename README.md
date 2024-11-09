@@ -12,7 +12,7 @@ websocat ws://127.0.0.1:9988/message-center/123455677/
 
 open a new terminal
 
-curl -X PUT -d '{"channelName":"123455677","message":"yes是的,我看行","subscribers":["123455677"]}'  -H "Content-Type:application/json" http://127.0.0.1:9988/message-center/post
+curl -X PUT -d '{"channelName":"123455677","message":"this is a test message","subscribers":["123455677"]}'  -H "Content-Type:application/json" http://127.0.0.1:9988/message-center/post
 
 ```
 
