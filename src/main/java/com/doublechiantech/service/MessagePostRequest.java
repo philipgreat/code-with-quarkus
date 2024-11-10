@@ -7,6 +7,24 @@ public class MessagePostRequest {
     private String channelName;
     private String message;
 
+    public static MessagePostRequest withSourceAndMessage(String username, String message) {
+
+        MessagePostRequest req=new MessagePostRequest();
+        req.setMessageSource(username);
+        req.setMessage(message);
+        return req;
+
+    }
+
+    public String getMessageSource() {
+        return messageSource;
+    }
+
+    public void setMessageSource(String messageSource) {
+        this.messageSource = messageSource;
+    }
+
+    private String messageSource;
 
 
     public String getChannelName() {

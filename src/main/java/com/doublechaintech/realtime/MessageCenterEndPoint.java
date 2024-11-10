@@ -1,5 +1,11 @@
 package com.doublechaintech.realtime;
 import com.doublechiantech.service.ChannelService;
+import com.doublechiantech.service.MessagePostRequest;
+import com.doublechiantech.service.MessagePostResponse;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.netty.util.internal.ObjectUtil;
+import io.quarkus.runtime.util.StringUtil;
 import org.jboss.logging.Logger;
 import org.jboss.resteasy.reactive.common.util.DateUtil;
 
@@ -78,12 +84,64 @@ public class MessageCenterEndPoint {
 
     @OnMessage
     public void onMessage(Session session,String message, @PathParam("username") String username) {
-        session.getAsyncRemote().sendText("hello:"+session.getId(), result ->  {
+
+
+        try{
+            MessagePostRequest request=parseMessage(message);
+            multicast(request.getSubscribers(),wrapWithUserName(session,username,request.getMessage()));
+        }catch (Exception e){
+            sendBackMessage(session,username,wrapExceptionAsResponse(session,username,e));
+        }
+
+        LOG.info("received a message "+message+" form session "+ session.getId()+" with user name"+ username);
+    }
+    
+    private String wrapWithUserName(Session session, String username, String message) throws JsonProcessingException {
+
+        MessagePostRequest request=MessagePostRequest.withSourceAndMessage(username,message);
+
+        return getDefaultMapper().writeValueAsString(request);
+    }
+
+    private MessagePostResponse wrapExceptionAsResponse(Session session, String username, Exception e) {
+
+
+        return MessagePostResponse.withErrorMessage(e.getMessage());
+
+
+    }
+
+    private void sendBackMessage(Session session, String username,MessagePostResponse response){
+        session.getAsyncRemote().sendObject(response, result ->  {
             if (result.getException() != null) {
-                LOG.error("Unable to send message: " + result.getException());
+                LOG.error("Unable to send message to : " + session.getId()+"/"+username+" with content: "+result.getException());
             }
         });
-        LOG.debug("received a message "+message+" form session "+ session.getId()+" with user name"+ username);
+    }
+
+    private MessagePostRequest parseMessage(String message) throws JsonProcessingException {
+        MessagePostRequest request=getDefaultMapper().readValue(message,MessagePostRequest.class);
+        if(StringUtil.isNullOrEmpty(request.getMessageSource())){
+            throw new IllegalArgumentException("messageSource is not allowed to be null");
+        }
+        if(StringUtil.isNullOrEmpty(request.getMessage())){
+            throw new IllegalArgumentException("message is not allowed to be null");
+        }
+        if(StringUtil.isNullOrEmpty(request.getChannelName())){
+            throw new IllegalArgumentException("channelName is not allowed to be null");
+        }
+        if(request.getSubscribers() ==null){
+            throw new IllegalArgumentException("subscribers is not allowed to be null");
+        }
+        if(request.getSubscribers().isEmpty()){
+            throw new IllegalArgumentException("subscribers is not allowed to be empty");
+        }
+
+        return request;
+    }
+
+    private ObjectMapper getDefaultMapper(){
+        return new ObjectMapper();
     }
 
     public synchronized void  multicast(List<String> endPoints, Object message){

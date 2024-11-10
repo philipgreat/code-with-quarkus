@@ -18,4 +18,22 @@ public class MessagePostResponse {
     public void setMessage(String message) {
         this.message = message;
     }
+
+    public int getResult() {
+        return result;
+    }
+
+    public void setResult(int result) {
+        this.result = result;
+    }
+
+    private int result=0;
+
+    public static MessagePostResponse withErrorMessage(String message){
+        MessagePostResponse messagePostResponse=new MessagePostResponse();
+        messagePostResponse.setMessage(message);
+        messagePostResponse.setResult(1);
+        return  messagePostResponse;
+    }
+
 }
