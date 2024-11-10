@@ -16,6 +16,12 @@ curl -X PUT -d '{"channelName":"123455677","message":"this is a test message","s
 
 ```
 
+## Before Build
+
+```
+export MAVEN_OPTS="-DhttpProxyHost=127.0.0.1 -DhttpProxyPort=1087 -DsocksProxyHost=127.0.0.1 -DsocksProxyPort=1080  "
+
+```
 
 ## Running the application in dev mode
 
