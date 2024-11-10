@@ -89,13 +89,14 @@ public class MessageCenterEndPoint {
         try{
             MessagePostRequest request=parseMessage(message);
             multicast(request.getSubscribers(),wrapWithUserName(session,username,request.getMessage()));
+            sendBackMessage(session,username,MessagePostResponse.withErrorMessage("ok"));
         }catch (Exception e){
             sendBackMessage(session,username,wrapExceptionAsResponse(session,username,e));
         }
 
         LOG.info("received a message "+message+" form session "+ session.getId()+" with user name"+ username);
     }
-    
+
     private String wrapWithUserName(Session session, String username, String message) throws JsonProcessingException {
 
         MessagePostRequest request=MessagePostRequest.withSourceAndMessage(username,message);
@@ -176,3 +177,11 @@ public class MessageCenterEndPoint {
         });
     }
 }
+/*
+
+{"channelName":"123455677","message":"this is a test message","subscribers":["123"]}
+{"channelName":"123455677","message":"this is a test message","subscribers":["456"]}
+
+
+
+**/
