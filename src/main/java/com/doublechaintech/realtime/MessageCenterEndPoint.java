@@ -190,9 +190,10 @@ public class MessageCenterEndPoint {
 }
 /*
 
-{"channelName":"123455677","message":"this is a test message","subscribers":["123"]}
-{"channelName":"123455677","messageSource":"123","message":"this is a test message","subscribers":["456"]}
+{"channelName":"123455677","message":"this is a test message","subscribers":["456"]}
 
+
+{"messageSource":"123","message":"this is a test message","subscribers":["456"]}
 
 
 **/
