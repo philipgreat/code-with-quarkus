@@ -94,7 +94,7 @@ public class MessageCenterEndPoint {
             sendBackMessage(session,username,wrapExceptionAsResponse(session,username,e));
         }
 
-        LOG.info("received a message "+message+" form session "+ session.getId()+" with user name"+ username);
+        LOG.info("received a message "+message+" form session "+ session.getId()+" with user name: "+ username);
     }
 
     private String wrapWithUserName(Session session, String username, String message) throws JsonProcessingException {
