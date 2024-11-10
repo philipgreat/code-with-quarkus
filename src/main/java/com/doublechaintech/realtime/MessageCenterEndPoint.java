@@ -78,6 +78,11 @@ public class MessageCenterEndPoint {
 
     @OnMessage
     public void onMessage(Session session,String message, @PathParam("username") String username) {
+        session.getAsyncRemote().sendText("hello", result ->  {
+            if (result.getException() != null) {
+                LOG.error("Unable to send message: " + result.getException());
+            }
+        });
         LOG.debug("received a message "+message+" form session "+ session.getId()+" with user name"+ username);
     }
 
