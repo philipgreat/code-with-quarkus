@@ -94,7 +94,7 @@ public class MessageCenterEndPoint {
             multicast(request.getSubscribers(),wrapWithUserName(session,username,request.getMessage()));
             sendBackMessage(session,username,MessagePostResponse.withErrorMessage("ok"));
         }catch (Exception e){
-            LOG.error("error occured: "+ e.getMessage());
+            LOG.error("error occurred: "+ e.getMessage());
             sendBackMessage(session,username,wrapExceptionAsResponse(session,username,e));
         }
 
@@ -117,11 +117,17 @@ public class MessageCenterEndPoint {
     }
 
     private void sendBackMessage(Session session, String username,MessagePostResponse response){
-        session.getAsyncRemote().sendObject(response, result ->  {
-            if (result.getException() != null) {
-                LOG.error("Unable to send message to : " + session.getId()+"/"+username+" with content: "+result.getException());
-            }
-        });
+        try {
+            String message=getDefaultMapper().writeValueAsString(response);
+            session.getAsyncRemote().sendObject(message, result ->  {
+                if (result.getException() != null) {
+                    LOG.error("Unable to send message to : " + session.getId()+"/"+username+" with content: "+result.getException());
+                }
+            });
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     private MessagePostRequest parseMessage(String message) throws JsonProcessingException {
