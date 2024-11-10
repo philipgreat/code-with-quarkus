@@ -2,6 +2,7 @@ package com.doublechaintech.realtime;
 import com.doublechiantech.service.ChannelService;
 import com.doublechiantech.service.MessagePostRequest;
 import com.doublechiantech.service.MessagePostResponse;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.netty.util.internal.ObjectUtil;
@@ -153,7 +154,10 @@ public class MessageCenterEndPoint {
     }
 
     private ObjectMapper getDefaultMapper(){
-        return new ObjectMapper();
+        ObjectMapper mapper=new ObjectMapper();
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
+        return mapper;
     }
 
     public synchronized void  multicast(List<String> endPoints, Object message){
