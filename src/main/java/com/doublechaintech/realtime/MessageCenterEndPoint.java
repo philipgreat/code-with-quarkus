@@ -77,8 +77,8 @@ public class MessageCenterEndPoint {
     }
 
     @OnMessage
-    public void onMessage(String message, @PathParam("username") String username) {
-
+    public void onMessage(Session session,String message, @PathParam("username") String username) {
+        LOG.debug("received a message "+message+" form session "+ session.getId()+" with user name"+ username);
     }
 
     public synchronized void  multicast(List<String> endPoints, Object message){
