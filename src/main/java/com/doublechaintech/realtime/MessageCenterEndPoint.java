@@ -90,7 +90,7 @@ public class MessageCenterEndPoint {
 
 
         try{
-            MessagePostRequest request=parseMessage(message);
+            MessagePostRequest request=parseMessage(username,message);
             multicast(request.getSubscribers(),wrapWithUserName(session,username,request.getMessage()));
             sendBackMessage(session,username,MessagePostResponse.withErrorMessage("ok"));
         }catch (Exception e){
@@ -130,11 +130,12 @@ public class MessageCenterEndPoint {
 
     }
 
-    private MessagePostRequest parseMessage(String message) throws JsonProcessingException {
+    private MessagePostRequest parseMessage(String username,String message) throws JsonProcessingException {
         MessagePostRequest request=getDefaultMapper().readValue(message,MessagePostRequest.class);
-        if(StringUtil.isNullOrEmpty(request.getMessageSource())){
-            throw new IllegalArgumentException("messageSource is not allowed to be null");
-        }
+        request.setMessageSource(username);
+//        if(StringUtil.isNullOrEmpty(request.getMessageSource())){
+//            throw new IllegalArgumentException("messageSource is not allowed to be null");
+//        }
         if(StringUtil.isNullOrEmpty(request.getMessage())){
             throw new IllegalArgumentException("message is not allowed to be null");
         }
