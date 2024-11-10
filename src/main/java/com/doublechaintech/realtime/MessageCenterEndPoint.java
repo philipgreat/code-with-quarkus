@@ -23,10 +23,13 @@ import jakarta.websocket.OnOpen;
 import jakarta.websocket.server.PathParam;
 import jakarta.websocket.server.ServerEndpoint;
 import jakarta.websocket.Session;
+import org.slf4j.LoggerFactory;
+
 @ServerEndpoint("/message-center/{username}")
 @ApplicationScoped
 
 public class MessageCenterEndPoint {
+    private static final org.slf4j.Logger log = LoggerFactory.getLogger(MessageCenterEndPoint.class);
     /*
     static MessageCenterEndPoint messageCenterEndPoint;
     public static synchronized  MessageCenterEndPoint inst(){
@@ -91,6 +94,7 @@ public class MessageCenterEndPoint {
             multicast(request.getSubscribers(),wrapWithUserName(session,username,request.getMessage()));
             sendBackMessage(session,username,MessagePostResponse.withErrorMessage("ok"));
         }catch (Exception e){
+            LOG.error("error occured: "+ e.getMessage());
             sendBackMessage(session,username,wrapExceptionAsResponse(session,username,e));
         }
 
@@ -180,7 +184,7 @@ public class MessageCenterEndPoint {
 /*
 
 {"channelName":"123455677","message":"this is a test message","subscribers":["123"]}
-{"channelName":"123455677","message":"this is a test message","subscribers":["456"]}
+{"channelName":"123455677","messageSource":"123","message":"this is a test message","subscribers":["456"]}
 
 
 

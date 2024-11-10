@@ -11,6 +11,7 @@ public class MessagePostRequest {
 
         MessagePostRequest req=new MessagePostRequest();
         req.setMessageSource(username);
+        req.setChannelName("p2p");
         req.setMessage(message);
         return req;
 
