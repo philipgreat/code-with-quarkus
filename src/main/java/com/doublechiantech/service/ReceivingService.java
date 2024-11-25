@@ -42,7 +42,7 @@ public class ReceivingService {
         }
 
         List<String> endPoints = channelManager.getEndPointForChannel(request.getChannelName());
-        LOG.error(channelManager.listSubscriptionText());
+        //LOG.error(channelManager.listSubscriptionText());
         messageCenterEndPoint.multicast(endPoints,request.getMessage());
         return  MessagePostResponse.withMessage("sent to end points:" +String.join(", ", endPoints));
     }

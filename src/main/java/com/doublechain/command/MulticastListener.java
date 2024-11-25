@@ -56,9 +56,9 @@ public class MulticastListener implements Runnable{
         while (true){
             byte[] buf = new byte[8192];
             DatagramPacket packet = new DatagramPacket(buf, buf.length);
-            LOG.info("Before recv "+address+":"+port);
+            //LOG.info("Before recv "+address+":"+port);
             socket.receive(packet);
-            LOG.info("After recv "+address+":"+port);
+            //LOG.info("After recv "+address+":"+port);
             byte[] messageBuf=new byte[packet.getLength()];
             System.arraycopy(buf,0,messageBuf,0,packet.getLength());
             CharsetDecoder decoder =
@@ -67,7 +67,7 @@ public class MulticastListener implements Runnable{
                 CharBuffer buffer = decoder.decode(
                         ByteBuffer.wrap(messageBuf));
                 String message=buffer.toString();
-                LOG.info("Receiving message: "+message);
+                //LOG.info("Receiving message: "+message);
                 MessagePostRequest request= mapper().readValue(message,MessagePostRequest.class);
                 receivingService.postMessage(request);
             } catch (CharacterCodingException ex) {

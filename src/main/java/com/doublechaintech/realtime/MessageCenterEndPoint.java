@@ -99,7 +99,7 @@ public class MessageCenterEndPoint {
             sendBackMessage(session,username,wrapExceptionAsResponse(session,username,e));
         }
 
-        LOG.info("received a message "+message+" form session "+ session.getId()+" with user name: "+ username);
+        //LOG.info("received a message "+message+" form session "+ session.getId()+" with user name: "+ username);
     }
 
     private String wrapWithUserName(Session session, String username, String message) throws JsonProcessingException {
@@ -165,10 +165,10 @@ public class MessageCenterEndPoint {
 
         sessions.entrySet().stream()
                 .filter(entry->endPoints.contains(entry.getKey()))
-                .map(entry -> {
-                    LOG.info("sending message to "+ entry.getKey());
-                    return entry;
-                })
+//                .map(entry -> {
+//                    //LOG.info("sending message to "+ entry.getKey());
+//                    return entry;
+//                })
                 .map(entry -> entry.getValue()).forEach(session -> {
                     if(!session.isOpen()){
                         return;//not clean here, fine for now

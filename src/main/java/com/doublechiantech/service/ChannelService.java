@@ -28,7 +28,7 @@ public class ChannelService {
 
         if(channelManager==null){
             String msg="the container is not working for ChannelService";
-            LOG.info(msg);
+            LOG.error(msg);
             return AddChanelResponse.withErrorMessage(msg);
         }
         //ChannelManager channelManager = ChannelManager.inst();
