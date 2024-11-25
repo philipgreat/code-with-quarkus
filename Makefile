@@ -8,7 +8,7 @@ docker:
 	#sdk default java  22.1.0.1.r17-gln
 	quarkus build --native  --no-tests
 	docker build --no-cache -f src/main/docker/Dockerfile.native -t golap2docker/realtime-websocket  .
-	#docker push golap2docker/realtime-websocket
+	docker push golap2docker/realtime-websocket
 
 
 run-docker:
