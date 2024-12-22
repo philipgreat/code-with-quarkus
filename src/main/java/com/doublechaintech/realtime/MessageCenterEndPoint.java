@@ -45,7 +45,7 @@ public class MessageCenterEndPoint {
     public static  String PUBLIC_CHANNEL="public";
 
     Map<String, Session> sessions = new ConcurrentHashMap<>();
-    private static final Logger LOG = Logger.getLogger(ChannelService.class);
+    private static final Logger LOG = Logger.getLogger(MessageCenterEndPoint.class);
 
 
     public String getSessionId(String username,Session session){
@@ -77,6 +77,10 @@ public class MessageCenterEndPoint {
     public void onClose(Session session, @PathParam("username") String username) {
         sessions.remove(getSessionId(username,session));
         broadcast("User " + getMaskedId(username,session) + " left");
+
+        sessions.entrySet().forEach(stringSessionEntry -> {
+            LOG.info(String.format("%s is LIVE",stringSessionEntry.getKey()));
+        });
 
     }
 

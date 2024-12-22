@@ -19,7 +19,7 @@ public class ChannelService {
     public AddChanelResponse addToChanel(AddToChannelRequest request) {
 
         try{
-            checkAddChangelRequest(request);
+            checkAddChannelRequest(request);
         }catch (IllegalArgumentException ex){
             LOG.error(ex.getMessage());
             return AddChanelResponse.withErrorMessage(ex.getMessage());
@@ -36,7 +36,7 @@ public class ChannelService {
         return AddChanelResponse.withMessage("End point '"+request.getChannelName()+"' has been added to channel '"+request.getEndpoint()+"'.");
     }
 
-    private void checkAddChangelRequest(AddToChannelRequest request) {
+    private void checkAddChannelRequest(AddToChannelRequest request) {
         if(request==null){
             throw new IllegalArgumentException("request is null");
         }
@@ -52,8 +52,6 @@ public class ChannelService {
         if(request.getEndpoint().length() < 1 ){
             throw new IllegalArgumentException("endpoint should not be an empty string");
         }
-
-
 
     }
 
