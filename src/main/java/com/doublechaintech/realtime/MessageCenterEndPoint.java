@@ -44,6 +44,10 @@ public class MessageCenterEndPoint {
 
     public static  String PUBLIC_CHANNEL="public";
 
+    public Map<String, Session> getSessions() {
+        return sessions;
+    }
+
     Map<String, Session> sessions = new ConcurrentHashMap<>();
     private static final Logger LOG = Logger.getLogger(MessageCenterEndPoint.class);
 
@@ -63,6 +67,8 @@ public class MessageCenterEndPoint {
         }
         return "*****"+username.substring(username.length() - 4);
     }
+
+
 
 
     @OnOpen
@@ -179,7 +185,7 @@ public class MessageCenterEndPoint {
                     }
                     session.getAsyncRemote().sendText(message.toString(), result ->  {
                         if (result.getException() != null) {
-                            LOG.error("Unable to send message: " + result.getException());
+                            LOG.error("Unable to send message to: " + session.getId());
                         }
                     });
                 });
