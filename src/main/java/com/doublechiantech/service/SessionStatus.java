@@ -4,6 +4,16 @@ public class SessionStatus {
     private String sessionKey;
     private Boolean open;
 
+    public String getInternalId() {
+        return internalId;
+    }
+
+    public void setInternalId(String internalId) {
+        this.internalId = internalId;
+    }
+
+    private String internalId;
+
     public Boolean getOpen() {
         return open;
     }

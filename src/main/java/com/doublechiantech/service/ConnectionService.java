@@ -34,6 +34,7 @@ public class ConnectionService {
         SessionStatus status=new SessionStatus();
         status.setSessionKey(key);
         status.setOpen(session.isOpen());
+        status.setInternalId(session.getId());
         return status;
 
 
