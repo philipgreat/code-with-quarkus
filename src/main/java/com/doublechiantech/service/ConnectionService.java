@@ -25,6 +25,8 @@ public class ConnectionService {
             statusList.add(createFromSession(stringSessionEntry.getKey(),stringSessionEntry.getValue()));
         });
 
+        return statusList;
+
     }
 
     private SessionStatus createFromSession(String key, Session session) {
